@@ -236,3 +236,6 @@ ORDER BY i.name, ic.key_ordinal;
 
 # References
 + [SQL Server Migration + Compare + Deploy dùng DACPAC / SqlPackage](https://docs.google.com/document/d/12Jq3ZeO22mJ0iEDFeQiTQUy4axJ6BLPmOOk07jDHPZ0)
++ https://github.com/gtechsltn/SQL-Unique-Constraints-Unique-Indexes
++ https://github.com/gtechsltn/MSSQL-Backup-Scripts
++ https://docs.google.com/document/d/12Jq3ZeO22mJ0iEDFeQiTQUy4axJ6BLPmOOk07jDHPZ0
