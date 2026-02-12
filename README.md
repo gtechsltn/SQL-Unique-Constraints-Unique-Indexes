@@ -233,3 +233,6 @@ WHERE i.is_unique = 1
   AND i.object_id = OBJECT_ID('dbo.sites')   -- adjust schema if needed
 ORDER BY i.name, ic.key_ordinal;
 ```
+
+# References
++ [SQL Server Migration + Compare + Deploy dùng DACPAC / SqlPackage](https://docs.google.com/document/d/12Jq3ZeO22mJ0iEDFeQiTQUy4axJ6BLPmOOk07jDHPZ0)
