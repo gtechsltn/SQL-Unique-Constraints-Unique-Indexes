@@ -75,57 +75,14 @@ WHERE kc.type = 'UQ'
     + Chính xác 100%
     + Bao gồm PK, FK, indexes, defaults, identity, etc.
 
-## Cách T-SQL thuần (reconstruct CREATE TABLE)
-```
-SELECT 
-    CAST('CREATE TABLE dbo.sites (' + CHAR(10) AS NVARCHAR(MAX)) +
-    STRING_AGG(
-        CAST(
-            '    [' + c.name + '] ' + 
-            t.name +
-            CASE 
-                WHEN t.name IN ('varchar','char','varbinary','binary')
-                    THEN '(' + 
-                         CASE WHEN c.max_length = -1 THEN 'MAX'
-                              ELSE CAST(c.max_length AS VARCHAR(10)) END + ')'
-                WHEN t.name IN ('nvarchar','nchar')
-                    THEN '(' + 
-                         CASE WHEN c.max_length = -1 THEN 'MAX'
-                              ELSE CAST(c.max_length / 2 AS VARCHAR(10)) END + ')'
-                WHEN t.name IN ('decimal','numeric')
-                    THEN '(' + CAST(c.precision AS VARCHAR) + ',' + CAST(c.scale AS VARCHAR) + ')'
-                ELSE ''
-            END +
-            CASE WHEN c.is_nullable = 1 THEN ' NULL' ELSE ' NOT NULL' END +
-            CASE WHEN c.is_identity = 1 
-                    THEN ' IDENTITY(' + 
-                         CAST(ic.seed_value AS VARCHAR) + ',' + 
-                         CAST(ic.increment_value AS VARCHAR) + ')'
-                 ELSE ''
-            END
-        AS NVARCHAR(MAX))
-    , ',' + CHAR(10)
-    ) +
-    CAST(CHAR(10) + ');' AS NVARCHAR(MAX))
-FROM sys.columns c
-JOIN sys.types t 
-    ON c.user_type_id = t.user_type_id
-LEFT JOIN sys.identity_columns ic
-    ON c.object_id = ic.object_id
-   AND c.column_id = ic.column_id
-WHERE c.object_id = OBJECT_ID('dbo.sites');
-```
-
-## Dưới đây là script T-SQL thuần để generate CREATE TABLE đầy đủ hơn, bao gồm:
+## Cách T-SQL thuần (reconstruct CREATE TABLE) để **Generate CREATE TABLE + PRIMARY KEY**
 + Columns
 + Data types (varchar/nvarchar/decimal/etc.)
 + NULL / NOT NULL
 + IDENTITY
 + Primary Key
 
-(An toàn với lỗi **STRING_AGG 8000 bytes**)
-
-**Generate CREATE TABLE + PRIMARY KEY**
+(An toàn với lỗi **STRING_AGG aggregation result exceeded the limit of 8000 bytes. Use LOB types to avoid result truncation.**)
 
 ```
 DECLARE @TableName SYSNAME = 'sites';
