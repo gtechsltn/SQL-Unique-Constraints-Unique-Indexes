@@ -1,4 +1,7 @@
 # T-SQL Unique Constraints and Unique Indexes
++ **Unique constraints** are logical rules (ALTER TABLE ADD CONSTRAINT ... UNIQUE)
++ **Unique indexes** enforce uniqueness but may not be declared as constraints
++ **Many databases use indexes instead of constraints.**
 
 # Unique Constraints
 ```
